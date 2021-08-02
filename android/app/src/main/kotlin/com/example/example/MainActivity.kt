@@ -27,10 +27,7 @@ class MainActivity : FlutterActivity() {
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "channel_flutter")
         channelFlutter.setMethodCallHandler { call, _ ->
             if (call.method == "navToScreen") {
-                Log.d("NAV", "Good")
                 startActivity(Intent("Navigator"))
-            } else {
-                Log.d("NAV", "Bad")
             }
         }
 
@@ -40,19 +37,17 @@ class MainActivity : FlutterActivity() {
             val x: Double = message?.double ?: 0.0
             val y: Int = message?.int ?: 0
 
-            Log.i("FLUTTER", "Received $x and $y")
+            Log.i("flutter", "Received $x and $y")
 
             val message2 = ByteBuffer.allocateDirect(12)
             message2.putDouble(x)
             message2.putInt(y)
 
             flutterEngine.dartExecutor.binaryMessenger.send(CHANNEL, message2) {
-                Log.i("FLUTTER", "Sent $x and $y")
+                Log.i("flutter", "Sent $x and $y")
             }
             reply.reply(null)
         }
-
-
     }
 
     override fun onDestroy() {
